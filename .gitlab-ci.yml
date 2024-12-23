@@ -1,0 +1,33 @@
+# Define stages
+stages:
+  - test
+  - deploy
+  - update
+
+# Stage 1: Test Python Scripts
+test_backend:
+  image: python:3.9
+  stage: test
+  script:
+    - pip install -r backend/requirements.txt
+    - python -m unittest discover backend/scripts/tests
+
+# Stage 2: Deploy Flask Backend to AWS Lambda
+deploy_backend:
+  image: python:3.9
+  stage: deploy
+  script:
+    - pip install zappa
+    - zappa deploy production
+  only:
+    - main
+
+# Stage 3: Automate Dataset Updates
+update_dataset:
+  image: python:3.9
+  stage: update
+  script:
+    - pip install boto3 pandas
+    - python backend/scripts/data_alignment.py
+  only:
+    - main
