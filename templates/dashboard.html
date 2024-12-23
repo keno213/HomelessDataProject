@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Homelessness Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Homelessness Data Dashboard</h1>
+    <canvas id="myChart" width="400" height="200"></canvas>
+
+    <script>
+        // Fetch data from Flask
+        fetch('/data')
+            .then(response => response.json())
+            .then(data => {
+                const labels = data.map(row => row.Shelter); // Replace with your column
+                const values = data.map(row => row.Anxiety_Lvl); // Replace with your column
+
+                // Create Chart
+                const ctx = document.getElementById('myChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Anxiety Levels',
+                            data: values,
+                            backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        }]
+                    }
+                });
+            });
+    </script>
+</body>
+</html>

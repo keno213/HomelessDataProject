@@ -3,3 +3,6 @@ dash
 boto3
 awscli
 
+flask
+chart.js
+react-chartjs-2
